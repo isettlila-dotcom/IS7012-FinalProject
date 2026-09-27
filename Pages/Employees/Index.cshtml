@@ -1,0 +1,50 @@
+@page
+@model IS7012_FinalProject.Pages.Employees.IndexModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h1>Employees</h1>
+
+<p>
+    <a class="btn btn-primary" href="#">Add Employee</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee Number</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Hire Date</th>
+            <th>Department</th>
+            <th>Job Role</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var employee in Model.Employees)
+        {
+            <tr>
+                <td>@employee.EmployeeNumber</td>
+                <td>@employee.FirstName @employee.LastName</td>
+                <td>@employee.Email</td>
+                <td>@employee.HireDate.ToShortDateString()</td>
+                <td>@employee.Department?.Name</td>
+                <td>@employee.JobRole?.Title</td>
+                <td>
+                    @if (employee.IsActive)
+                    {
+                        <span>Active</span>
+                    }
+                    else
+                    {
+                        <span>Inactive</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
