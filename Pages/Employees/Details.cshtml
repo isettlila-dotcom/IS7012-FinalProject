@@ -1,0 +1,49 @@
+@page
+@model IS7012_FinalProject.Pages.Employees.DetailsModel
+
+@{
+	ViewData["Title"] = "Employee Details";
+}
+
+<h1>Employee Details</h1>
+
+<hr />
+
+<dl class="row">
+	<dt class="col-sm-3">Employee Number</dt>
+	<dd class="col-sm-9">@Model.Employee.EmployeeNumber</dd>
+
+	<dt class="col-sm-3">First Name</dt>
+	<dd class="col-sm-9">@Model.Employee.FirstName</dd>
+
+	<dt class="col-sm-3">Last Name</dt>
+	<dd class="col-sm-9">@Model.Employee.LastName</dd>
+
+	<dt class="col-sm-3">Email</dt>
+	<dd class="col-sm-9">@Model.Employee.Email</dd>
+
+	<dt class="col-sm-3">Hire Date</dt>
+	<dd class="col-sm-9">@Model.Employee.HireDate.ToShortDateString()</dd>
+
+	<dt class="col-sm-3">Department</dt>
+	<dd class="col-sm-9">@Model.Employee.Department?.Name</dd>
+
+	<dt class="col-sm-3">Job Role</dt>
+	<dd class="col-sm-9">@Model.Employee.JobRole?.Title</dd>
+
+	<dt class="col-sm-3">Active</dt>
+	<dd class="col-sm-9">@(Model.Employee.IsActive ? "Yes" : "No")</dd>
+</dl>
+
+<div class="mt-3">
+	<a asp-page="./Edit"
+	   asp-route-id="@Model.Employee.Id"
+	   class="btn btn-primary">
+		Edit
+	</a>
+
+	<a asp-page="./Index"
+	   class="btn btn-secondary">
+		Back to Employees
+	</a>
+</div>
