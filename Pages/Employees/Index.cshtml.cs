@@ -1,36 +1,27 @@
+using IS7012_FinalProject.Data;
 using IS7012_FinalProject.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace IS7012_FinalProject.Pages.Employees
 {
-	public class IndexModel : PageModel
-	{
-		public List<Employee> Employees { get; set; } = new();
+    public class IndexModel : PageModel
+    {
+        private readonly ApplicationDbContext _context;
 
-		public void OnGet()
-		{
-			// Temporary sample data until the database is connected.
-			Employees = new List<Employee>
-			{
-				new Employee
-				{
-					Id = 1,
-					EmployeeNumber = "EMP001",
-					FirstName = "John",
-					LastName = "Smith",
-					Email = "john.smith@example.com",
-					HireDate = DateTime.Today,
-					IsActive = true,
-					Department = new Department
-					{
-						Name = "Accounting"
-					},
-					JobRole = new JobRole
-					{
-						Title = "Payroll Specialist"
-					}
-				}
-			};
-		}
-	}
+        public IndexModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public IList<Employee> Employees { get; set; } = new List<Employee>();
+
+        public async Task OnGetAsync()
+        {
+            Employees = await _context.Employees
+                .Include(e => e.Department)
+                .Include(e => e.JobRole)
+                .ToListAsync();
+        }
+    }
 }

@@ -1,0 +1,50 @@
+@page
+@model IS7012_FinalProject.Pages.Employees.DeleteModel
+
+@{
+	ViewData["Title"] = "Delete Employee";
+}
+
+<h1>Delete Employee</h1>
+
+<h3 class="text-danger">Are you sure you want to delete this employee?</h3>
+
+<hr />
+
+<dl class="row">
+	<dt class="col-sm-3">Employee Number</dt>
+	<dd class="col-sm-9">@Model.Employee.EmployeeNumber</dd>
+
+	<dt class="col-sm-3">First Name</dt>
+	<dd class="col-sm-9">@Model.Employee.FirstName</dd>
+
+	<dt class="col-sm-3">Last Name</dt>
+	<dd class="col-sm-9">@Model.Employee.LastName</dd>
+
+	<dt class="col-sm-3">Email</dt>
+	<dd class="col-sm-9">@Model.Employee.Email</dd>
+
+	<dt class="col-sm-3">Hire Date</dt>
+	<dd class="col-sm-9">@Model.Employee.HireDate.ToShortDateString()</dd>
+
+	<dt class="col-sm-3">Department</dt>
+	<dd class="col-sm-9">@Model.Employee.Department?.Name</dd>
+
+	<dt class="col-sm-3">Job Role</dt>
+	<dd class="col-sm-9">@Model.Employee.JobRole?.Title</dd>
+
+	<dt class="col-sm-3">Active</dt>
+	<dd class="col-sm-9">@(Model.Employee.IsActive ? "Yes" : "No")</dd>
+</dl>
+
+<form method="post">
+	<input type="hidden" asp-for="Employee.Id" />
+
+	<button type="submit" class="btn btn-danger">
+		Delete
+	</button>
+
+	<a asp-page="./Index" class="btn btn-secondary">
+		Cancel
+	</a>
+</form>
