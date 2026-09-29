@@ -13,7 +13,9 @@ namespace IS7012_FinalProject.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobRole> JobRoles { get; set; }
-
+        public DbSet<SalaryPackage> SalaryPackages { get; set; }
+        public DbSet<PayrollPeriod> PayrollPeriods { get; set; }
+        public DbSet<PayrollRecord> PayrollRecords { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -58,7 +60,40 @@ namespace IS7012_FinalProject.Data
                     Title = "HR Specialist",
                     Description = "Supports employee administration"
                 }
+
             );
+            // SalaryPackage belongs to one Employee
+            modelBuilder.Entity<SalaryPackage>()
+                .HasOne(s => s.Employee)
+                .WithMany()
+                .HasForeignKey(s => s.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PayrollRecord belongs to one Employee
+            modelBuilder.Entity<PayrollRecord>()
+                .HasOne(p => p.Employee)
+                .WithMany()
+                .HasForeignKey(p => p.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PayrollRecord belongs to one PayrollPeriod
+            modelBuilder.Entity<PayrollRecord>()
+                .HasOne(p => p.PayrollPeriod)
+                .WithMany(pp => pp.PayrollRecords)
+                .HasForeignKey(p => p.PayrollPeriodId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PayrollRecord belongs to one SalaryPackage
+            modelBuilder.Entity<PayrollRecord>()
+                .HasOne(p => p.SalaryPackage)
+                .WithMany(s => s.PayrollRecords)
+                .HasForeignKey(p => p.SalaryPackageId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // One payroll record per employee per payroll period
+            modelBuilder.Entity<PayrollRecord>()
+                .HasIndex(p => new { p.EmployeeId, p.PayrollPeriodId })
+                .IsUnique();
         }
     }
 }
