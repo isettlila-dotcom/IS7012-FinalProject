@@ -18,6 +18,7 @@ namespace IS7012_FinalProject.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Department seed data
             modelBuilder.Entity<Department>().HasData(
                 new Department
                 {
@@ -39,6 +40,7 @@ namespace IS7012_FinalProject.Data
                 }
             );
 
+            // Job Role seed data
             modelBuilder.Entity<JobRole>().HasData(
                 new JobRole
                 {
@@ -57,6 +59,84 @@ namespace IS7012_FinalProject.Data
                     Id = 3,
                     Title = "HR Specialist",
                     Description = "Supports employee administration"
+                }
+            );
+
+            // Employee seed data
+            // Fixed IDs 1-6 are used so SalaryPackage seed data
+            // can reference these employees.
+            modelBuilder.Entity<Employee>().HasData(
+                new Employee
+                {
+                    Id = 1,
+                    EmployeeNumber = "EMP001",
+                    FirstName = "John",
+                    LastName = "Smith",
+                    Email = "john.smith@company.com",
+                    HireDate = new DateTime(2022, 1, 10),
+                    IsActive = true,
+                    DepartmentId = 1,
+                    JobRoleId = 1
+                },
+                new Employee
+                {
+                    Id = 2,
+                    EmployeeNumber = "EMP002",
+                    FirstName = "Sarah",
+                    LastName = "Johnson",
+                    Email = "sarah.johnson@company.com",
+                    HireDate = new DateTime(2021, 6, 15),
+                    IsActive = true,
+                    DepartmentId = 1,
+                    JobRoleId = 2
+                },
+                new Employee
+                {
+                    Id = 3,
+                    EmployeeNumber = "EMP003",
+                    FirstName = "Michael",
+                    LastName = "Brown",
+                    Email = "michael.brown@company.com",
+                    HireDate = new DateTime(2023, 3, 20),
+                    IsActive = true,
+                    DepartmentId = 2,
+                    JobRoleId = 3
+                },
+                new Employee
+                {
+                    Id = 4,
+                    EmployeeNumber = "EMP004",
+                    FirstName = "Emily",
+                    LastName = "Davis",
+                    Email = "emily.davis@company.com",
+                    HireDate = new DateTime(2022, 8, 5),
+                    IsActive = true,
+                    DepartmentId = 1,
+                    JobRoleId = 1
+                },
+                new Employee
+                {
+                    Id = 5,
+                    EmployeeNumber = "EMP005",
+                    FirstName = "David",
+                    LastName = "Wilson",
+                    Email = "david.wilson@company.com",
+                    HireDate = new DateTime(2020, 11, 12),
+                    IsActive = true,
+                    DepartmentId = 1,
+                    JobRoleId = 2
+                },
+                new Employee
+                {
+                    Id = 6,
+                    EmployeeNumber = "EMP006",
+                    FirstName = "Jessica",
+                    LastName = "Taylor",
+                    Email = "jessica.taylor@company.com",
+                    HireDate = new DateTime(2023, 7, 17),
+                    IsActive = true,
+                    DepartmentId = 2,
+                    JobRoleId = 3
                 }
             );
         }
