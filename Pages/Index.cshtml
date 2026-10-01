@@ -1,10 +1,42 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">IS7012 Final Project</h1>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="alert alert-success mt-4">
+            <strong>Authenticated!</strong>
+        </div>
+
+        <p>
+            User ID:
+            <code>@User.FindFirst("sub")?.Value</code>
+        </p>
+
+        <p>
+            Name:
+            <strong>@User.FindFirst("name")?.Value</strong>
+        </p>
+
+        <p>
+            Email:
+            <strong>@User.FindFirst("email")?.Value</strong>
+        </p>
+
+        <a href="/logout" class="btn btn-danger">
+            Sign Out
+        </a>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-4">
+            You are not signed in.
+        </div>
+
+        <a href="/login" class="btn btn-primary">
+            Sign In
+        </a>
+    }
 </div>
