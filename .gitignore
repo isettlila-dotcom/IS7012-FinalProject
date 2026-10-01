@@ -3,3 +3,5 @@ obj/
 *.db
 *.db-shm
 *.db-wal
+.vs/
+*.csproj.user
