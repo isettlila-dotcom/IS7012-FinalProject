@@ -142,6 +142,99 @@ namespace IS7012_FinalProject.Data
                     JobRoleId = 3
                 }
             );
+
+            // Salary Package seed data
+            modelBuilder.Entity<SalaryPackage>().HasData(
+                new SalaryPackage
+                {
+                    SalaryPackageId = 1,
+                    EmployeeId = 1,
+                    BasicSalary = 6000m,
+                    Allowance = 1000m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = null
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 2,
+                    EmployeeId = 2,
+                    BasicSalary = 9000m,
+                    Allowance = 1500m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = null
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 3,
+                    EmployeeId = 3,
+                    BasicSalary = 6500m,
+                    Allowance = 1000m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = null
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 4,
+                    EmployeeId = 4,
+                    BasicSalary = 5500m,
+                    Allowance = 800m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = new DateTime(2026, 6, 30)
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 5,
+                    EmployeeId = 4,
+                    BasicSalary = 6000m,
+                    Allowance = 900m,
+                    EffectiveFrom = new DateTime(2026, 7, 1),
+                    EffectiveTo = null
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 6,
+                    EmployeeId = 5,
+                    BasicSalary = 9500m,
+                    Allowance = 1500m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = null
+                },
+                new SalaryPackage
+                {
+                    SalaryPackageId = 7,
+                    EmployeeId = 6,
+                    BasicSalary = 6200m,
+                    Allowance = 900m,
+                    EffectiveFrom = new DateTime(2026, 1, 1),
+                    EffectiveTo = null
+                }
+            );
+
+            // Payroll Period seed data
+            modelBuilder.Entity<PayrollPeriod>().HasData(
+                new PayrollPeriod
+                {
+                    PayrollPeriodId = 1,
+                    StartDate = new DateTime(2026, 6, 1),
+                    EndDate = new DateTime(2026, 6, 30),
+                    IsClosed = false
+                },
+                new PayrollPeriod
+                {
+                    PayrollPeriodId = 2,
+                    StartDate = new DateTime(2026, 9, 1),
+                    EndDate = new DateTime(2026, 9, 30),
+                    IsClosed = false
+                },
+                new PayrollPeriod
+                {
+                    PayrollPeriodId = 3,
+                    StartDate = new DateTime(2026, 10, 1),
+                    EndDate = new DateTime(2026, 10, 31),
+                    IsClosed = false
+                }
+            );
+
             // SalaryPackage belongs to one Employee
             modelBuilder.Entity<SalaryPackage>()
                 .HasOne(s => s.Employee)
