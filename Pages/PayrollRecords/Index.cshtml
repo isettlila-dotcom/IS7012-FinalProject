@@ -1,0 +1,83 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.IndexModel
+
+@{
+    ViewData["Title"] = "Payroll Records";
+}
+
+<h1>Payroll Records</h1>
+
+<p>
+    <a asp-page="Create">Create New Payroll Record</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Payroll Period</th>
+            <th>Basic Salary</th>
+            <th>Allowance</th>
+            <th>Additional Earnings</th>
+            <th>Deductions</th>
+            <th>Gross Pay</th>
+            <th>Net Pay</th>
+            <th>Status</th>
+            <th>Prepared Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.PayrollRecord)
+        {
+            <tr>
+                <td>
+                    @item.Employee?.FirstName @item.Employee?.LastName
+                </td>
+
+                <td>
+                    @item.PayrollPeriod?.PeriodName
+                </td>
+
+                <td>
+                    @item.SalaryPackage?.BasicSalary.ToString("N2")
+                </td>
+
+                <td>
+                    @item.SalaryPackage?.Allowance.ToString("N2")
+                </td>
+
+                <td>
+                    @item.AdditionalEarnings.ToString("N2")
+                </td>
+
+                <td>
+                    @item.Deductions.ToString("N2")
+                </td>
+
+                <td>
+                    @item.GrossPay.ToString("N2")
+                </td>
+
+                <td>
+                    @item.NetPay.ToString("N2")
+                </td>
+
+                <td>
+                    @item.Status
+                </td>
+
+                <td>
+                    @item.PreparedDate?.ToString("dd-MMM-yyyy")
+                </td>
+
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.PayrollRecordId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.PayrollRecordId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.PayrollRecordId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
