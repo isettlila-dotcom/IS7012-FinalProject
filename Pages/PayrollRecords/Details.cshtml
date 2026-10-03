@@ -1,5 +1,6 @@
 ﻿@page
 @model IS7012_FinalProject.Pages.PayrollRecords.DetailsModel
+@using IS7012_FinalProject.Models
 
 @{
     ViewData["Title"] = "Payroll Record Details";
@@ -59,7 +60,7 @@
             <dd class="col-sm-7">
                 @Model.PayrollRecord.Status
             </dd>
-
+            
             <dt class="col-sm-5">Prepared Date</dt>
             <dd class="col-sm-7">
                 @(Model.PayrollRecord.PreparedDate?.ToString("dd-MMM-yyyy") ?? "-")
@@ -76,16 +77,22 @@
             </dd>
         </dl>
 
-        <a asp-page="./Edit"
-           asp-route-id="@Model.PayrollRecord.PayrollRecordId"
-           class="btn btn-primary">
-            Edit
-        </a>
+        @if (Model.PayrollRecord.Status == PayrollStatus.Draft ||
+             Model.PayrollRecord.Status == PayrollStatus.Returned)
+        {
+            <a asp-page="./Edit"
+               asp-route-id="@Model.PayrollRecord.PayrollRecordId"
+               class="btn btn-primary">
+                Edit
+            </a>
+        }
 
         <a asp-page="./Index"
            class="btn btn-secondary">
             Back to List
         </a>
+
+
 
     </div>
 </div>

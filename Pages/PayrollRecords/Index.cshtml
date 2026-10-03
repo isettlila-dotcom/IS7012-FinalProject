@@ -1,11 +1,18 @@
 ﻿@page
 @model IS7012_FinalProject.Pages.PayrollRecords.IndexModel
+@using IS7012_FinalProject.Models
 
 @{
     ViewData["Title"] = "Payroll Records";
 }
 
 <h1>Payroll Records</h1>
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-warning" role="alert">
+        @errorMessage
+    </div>
+}
 
 <p>
     <a asp-page="Create">Create New Payroll Record</a>
@@ -71,9 +78,40 @@
                 </td>
 
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.PayrollRecordId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.PayrollRecordId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.PayrollRecordId">Delete</a>
+                    @if (item.Status == PayrollStatus.Draft ||
+                         item.Status == PayrollStatus.Returned)
+                    {
+                        <a asp-page="./Edit"
+                           asp-route-id="@item.PayrollRecordId">Edit</a>
+
+                        <span> | </span>
+
+                        <a asp-page="./Details"
+                           asp-route-id="@item.PayrollRecordId">Details</a>
+
+                        <span> | </span>
+
+                        <a asp-page="./Delete"
+                           asp-route-id="@item.PayrollRecordId">Delete</a>
+
+                        <form method="post"
+                              asp-page-handler="Submit"
+                              asp-route-id="@item.PayrollRecordId"
+                              class="d-inline">
+
+                            <span> | </span>
+
+                            <button type="submit"
+                                    class="btn btn-link p-0 align-baseline">
+                                Submit for Review
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-page="./Details"
+                           asp-route-id="@item.PayrollRecordId">Details</a>
+                    }
                 </td>
             </tr>
         }

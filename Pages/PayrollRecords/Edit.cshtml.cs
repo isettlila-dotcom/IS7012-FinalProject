@@ -35,7 +35,23 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             {
                 return NotFound();
             }
+            if (payrollRecord.Status != PayrollStatus.Draft &&
+                payrollRecord.Status != PayrollStatus.Returned)
+            {
+                TempData["ErrorMessage"] =
+                    "This payroll record cannot be edited because it has already been submitted for review.";
 
+                return RedirectToPage("./Index");
+            }
+
+            if (payrollRecord.PayrollPeriod == null ||
+                payrollRecord.PayrollPeriod.IsClosed)
+            {
+                TempData["ErrorMessage"] =
+                    "Payroll records in a closed payroll period cannot be edited.";
+
+                return RedirectToPage("./Index");
+            }
             PayrollRecord = payrollRecord;
 
             return Page();
@@ -57,13 +73,19 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             if (existingRecord.Status != PayrollStatus.Draft &&
                 existingRecord.Status != PayrollStatus.Returned)
             {
-                return BadRequest("Only Draft or Returned payroll records can be edited.");
+                TempData["ErrorMessage"] =
+                    "This payroll record cannot be edited because it has already been submitted for review.";
+
+                return RedirectToPage("./Index");
             }
 
             if (existingRecord.PayrollPeriod == null ||
                 existingRecord.PayrollPeriod.IsClosed)
             {
-                return BadRequest("Payroll records in a closed payroll period cannot be edited.");
+                TempData["ErrorMessage"] =
+                    "Payroll records in a closed payroll period cannot be edited.";
+
+                return RedirectToPage("./Index");
             }
 
             if (!ModelState.IsValid)
