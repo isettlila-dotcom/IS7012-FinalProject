@@ -19,8 +19,8 @@
             <th>Basic Salary</th>
             <th>Allowance</th>
             <th>Additional Earnings</th>
-            <th>Deductions</th>
             <th>Gross Pay</th>
+            <th>Deductions</th>
             <th>Net Pay</th>
             <th>Status</th>
             <th>Prepared Date</th>
@@ -51,13 +51,11 @@
                 <td>
                     @item.AdditionalEarnings.ToString("N2")
                 </td>
-
-                <td>
-                    @item.Deductions.ToString("N2")
-                </td>
-
                 <td>
                     @item.GrossPay.ToString("N2")
+                </td>
+                <td>
+                    @item.Deductions.ToString("N2")
                 </td>
 
                 <td>

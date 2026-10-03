@@ -1,0 +1,91 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.DetailsModel
+
+@{
+    ViewData["Title"] = "Payroll Record Details";
+}
+
+<h1>Payroll Record Details</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <dl class="row">
+            <dt class="col-sm-5">Employee</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Employee?.EmployeeNumber -
+                @Model.PayrollRecord.Employee?.FirstName
+                @Model.PayrollRecord.Employee?.LastName
+            </dd>
+
+            <dt class="col-sm-5">Payroll Period</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.PayrollPeriod?.PeriodName
+            </dd>
+
+            <dt class="col-sm-5">Basic Salary</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Allowance</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Additional Earnings</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.AdditionalEarnings.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Gross Pay</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.GrossPay.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Deductions</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Deductions.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Net Pay</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.NetPay.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Status</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Status
+            </dd>
+
+            <dt class="col-sm-5">Prepared Date</dt>
+            <dd class="col-sm-7">
+                @(Model.PayrollRecord.PreparedDate?.ToString("dd-MMM-yyyy") ?? "-")
+            </dd>
+
+            <dt class="col-sm-5">Reviewed Date</dt>
+            <dd class="col-sm-7">
+                @(Model.PayrollRecord.ReviewedDate?.ToString("dd-MMM-yyyy") ?? "-")
+            </dd>
+
+            <dt class="col-sm-5">Remarks</dt>
+            <dd class="col-sm-7">
+                @(Model.PayrollRecord.Remarks ?? "-")
+            </dd>
+        </dl>
+
+        <a asp-page="./Edit"
+           asp-route-id="@Model.PayrollRecord.PayrollRecordId"
+           class="btn btn-primary">
+            Edit
+        </a>
+
+        <a asp-page="./Index"
+           class="btn btn-secondary">
+            Back to List
+        </a>
+
+    </div>
+</div>

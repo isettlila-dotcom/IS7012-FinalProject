@@ -1,0 +1,67 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Payroll Record";
+}
+
+<h1>Delete Payroll Record</h1>
+
+<hr />
+
+<h4>Are you sure you want to delete this payroll record?</h4>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+
+        <dl class="row">
+            <dt class="col-sm-5">Employee</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Employee?.EmployeeNumber -
+                @Model.PayrollRecord.Employee?.FirstName
+                @Model.PayrollRecord.Employee?.LastName
+            </dd>
+
+            <dt class="col-sm-5">Payroll Period</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.PayrollPeriod?.PeriodName
+            </dd>
+
+            <dt class="col-sm-5">Gross Pay</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.GrossPay.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Deductions</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Deductions.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Net Pay</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.NetPay.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-5">Status</dt>
+            <dd class="col-sm-7">
+                @Model.PayrollRecord.Status
+            </dd>
+        </dl>
+
+        <form method="post">
+            <input type="hidden"
+                   asp-for="PayrollRecord.PayrollRecordId" />
+
+            <button type="submit"
+                    class="btn btn-danger">
+                Delete
+            </button>
+
+            <a asp-page="./Index"
+               class="btn btn-secondary">
+                Back to List
+            </a>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.EditModel
+
+@{
+    ViewData["Title"] = "Edit Payroll Record";
+}
+
+<h1>Edit Payroll Record</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="mb-3">
+            <label class="form-label">Employee</label>
+            <input class="form-control"
+                   value="@Model.PayrollRecord.Employee?.EmployeeNumber - @Model.PayrollRecord.Employee?.FirstName @Model.PayrollRecord.Employee?.LastName"
+                   readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Payroll Period</label>
+            <input class="form-control"
+                   value="@Model.PayrollRecord.PayrollPeriod?.PeriodName"
+                   readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Basic Salary</label>
+            <input class="form-control"
+                   value="@Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2")"
+                   readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Allowance</label>
+            <input class="form-control"
+                   value="@Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2")"
+                   readonly />
+        </div>
+
+        <form method="post">
+
+            <input type="hidden"
+                   asp-for="PayrollRecord.PayrollRecordId" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="PayrollRecord.AdditionalEarnings"
+                       class="form-label"></label>
+
+                <input asp-for="PayrollRecord.AdditionalEarnings"
+                       class="form-control" />
+
+                <span asp-validation-for="PayrollRecord.AdditionalEarnings"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PayrollRecord.Deductions"
+                       class="form-label"></label>
+
+                <input asp-for="PayrollRecord.Deductions"
+                       class="form-control" />
+
+                <span asp-validation-for="PayrollRecord.Deductions"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PayrollRecord.Remarks"
+                       class="form-label"></label>
+
+                <textarea asp-for="PayrollRecord.Remarks"
+                          class="form-control"
+                          rows="3"></textarea>
+
+                <span asp-validation-for="PayrollRecord.Remarks"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Save Changes
+            </button>
+
+            <a asp-page="./Index"
+               class="btn btn-secondary">
+                Back to List
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
