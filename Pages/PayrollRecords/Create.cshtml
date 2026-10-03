@@ -1,0 +1,66 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.CreateModel
+
+@{
+    ViewData["Title"] = "Create Payroll Record";
+}
+
+<h1>Create Payroll Record</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="EmployeeId" class="form-label"></label>
+                <select asp-for="EmployeeId"
+                        asp-items="Model.EmployeeOptions"
+                        class="form-select">
+                    <option value="">-- Select Employee --</option>
+                </select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PayrollPeriodId" class="form-label"></label>
+                <select asp-for="PayrollPeriodId"
+                        asp-items="Model.PayrollPeriodOptions"
+                        class="form-select">
+                    <option value="">-- Select Payroll Period --</option>
+                </select>
+                <span asp-validation-for="PayrollPeriodId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="AdditionalEarnings" class="form-label"></label>
+                <input asp-for="AdditionalEarnings" class="form-control" />
+                <span asp-validation-for="AdditionalEarnings" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Deductions" class="form-label"></label>
+                <input asp-for="Deductions" class="form-control" />
+                <span asp-validation-for="Deductions" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Remarks" class="form-label"></label>
+                <textarea asp-for="Remarks" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Draft</button>
+
+            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

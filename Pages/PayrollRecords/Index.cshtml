@@ -1,0 +1,137 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.IndexModel
+@using IS7012_FinalProject.Models
+
+@{
+    ViewData["Title"] = "Payroll Records";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Payroll Records</h1>
+
+    <a asp-page="Create" class="btn btn-primary">
+        Create New Payroll Record
+    </a>
+</div>
+
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-warning" role="alert">
+        @errorMessage
+    </div>
+}
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle app-table payroll-table mb-0">
+
+            <colgroup>
+                <col class="col-employee" />
+                <col class="col-period" />
+                <col class="col-netpay" />
+                <col class="col-status" />
+                <col class="col-date" />
+                <col class="col-actions" />
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Payroll Period</th>
+                    <th class="text-end">Net Pay</th>
+                    <th>Status</th>
+                    <th>Prepared Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.PayrollRecord)
+                {
+                    <tr>
+                        <td>
+                            @item.Employee?.FirstName @item.Employee?.LastName
+                        </td>
+
+                        <td>
+                            @item.PayrollPeriod?.PeriodName
+                        </td>
+
+                        <td class="text-end">
+                            @item.NetPay.ToString("N2")
+                        </td>
+
+                        <td>
+                            @switch (item.Status)
+                            {
+                                case PayrollStatus.Draft:
+                                    <span class="badge bg-secondary">Draft</span>
+                                    break;
+
+                                case PayrollStatus.Submitted:
+                                    <span class="badge bg-primary">Submitted</span>
+                                    break;
+
+                                case PayrollStatus.Approved:
+                                    <span class="badge bg-success">Approved</span>
+                                    break;
+
+                                case PayrollStatus.Returned:
+                                    <span class="badge bg-warning text-dark">Returned</span>
+                                    break;
+                            }
+                        </td>
+
+                        <td>
+                            @(item.PreparedDate?.ToString("dd-MMM-yyyy") ?? "-")
+                        </td>
+
+                        <td>
+                            @if (item.Status == PayrollStatus.Draft ||
+                                 item.Status == PayrollStatus.Returned)
+                            {
+                                <div class="mb-2 text-nowrap">
+                                    <a asp-page="./Edit"
+                                       asp-route-id="@item.PayrollRecordId">
+                                        Edit
+                                    </a>
+
+                                    <span> | </span>
+
+                                    <a asp-page="./Details"
+                                       asp-route-id="@item.PayrollRecordId">
+                                        Details
+                                    </a>
+
+                                    <span> | </span>
+
+                                    <a asp-page="./Delete"
+                                       asp-route-id="@item.PayrollRecordId">
+                                        Delete
+                                    </a>
+                                </div>
+
+                                <form method="post"
+                                      asp-page-handler="Submit"
+                                      asp-route-id="@item.PayrollRecordId">
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-warning">
+                                        Submit for Review
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.PayrollRecordId">
+                                    Details
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
