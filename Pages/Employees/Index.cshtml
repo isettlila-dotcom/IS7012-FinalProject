@@ -5,70 +5,77 @@
     ViewData["Title"] = "Employees";
 }
 
-<h1>Employees</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Employees</h1>
 
-<p>
-    <a asp-page="./Create" class="btn btn-primary">Add Employee</a>
-</p>
+    <a asp-page="Create" class="btn btn-primary">
+        Add Employee
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Employee Number</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Hire Date</th>
-            <th>Department</th>
-            <th>Job Role</th>
-            <th>Active</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle app-table mb-0">
+            <thead>
+                <tr>
+                    <th>Employee Number</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Hire Date</th>
+                    <th>Department</th>
+                    <th>Job Role</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-    <tbody>
-        @foreach (var employee in Model.Employees)
-        {
-            <tr>
-                <td>@employee.EmployeeNumber</td>
-                <td>@employee.FirstName</td>
-                <td>@employee.LastName</td>
-                <td>@employee.Email</td>
-                <td>@employee.HireDate.ToShortDateString()</td>
-                <td>@employee.Department?.Name</td>
-                <td>@employee.JobRole?.Title</td>
-                <td>
-                    @if (employee.IsActive)
-                    {
-                        <span>Yes</span>
-                    }
-                    else
-                    {
-                        <span>No</span>
-                    }
-                </td>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                    <tr>
+                        <td>@employee.EmployeeNumber</td>
+                        <td>@employee.FirstName</td>
+                        <td>@employee.LastName</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.HireDate.ToShortDateString()</td>
+                        <td>@employee.Department?.Name</td>
+                        <td>@employee.JobRole?.Title</td>
 
-                <td>
-                    <a asp-page="./Edit"
-                       asp-route-id="@employee.Id">
-                        Edit
-                    </a>
+                        <td>
+                            @if (employee.IsActive)
+                            {
+                                <span>Yes</span>
+                            }
+                            else
+                            {
+                                <span>No</span>
+                            }
+                        </td>
 
-                    |
+                        <td>
+                            <a asp-page="./Edit"
+                               asp-route-id="@employee.Id">
+                                Edit
+                            </a>
 
-                    <a asp-page="./Details"
-                       asp-route-id="@employee.Id">
-                        Details
-                    </a>
+                            <span> | </span>
 
-                    |
+                            <a asp-page="./Details"
+                               asp-route-id="@employee.Id">
+                                Details
+                            </a>
 
-                    <a asp-page="./Delete"
-                       asp-route-id="@employee.Id">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            <span> | </span>
+
+                            <a asp-page="./Delete"
+                               asp-route-id="@employee.Id">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -2,7 +2,7 @@
 @model IS7012_FinalProject.Pages.PayrollRecords.EditModel
 
 @{
-    ViewData["Title"] = "Edit Payroll Record";
+    ViewData["Title"] = $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Edit Payroll";
 }
 
 <h1>Edit Payroll Record</h1>

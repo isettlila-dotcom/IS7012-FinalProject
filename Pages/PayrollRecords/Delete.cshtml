@@ -2,7 +2,7 @@
 @model IS7012_FinalProject.Pages.PayrollRecords.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete Payroll Record";
+    ViewData["Title"] = $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Delete Payroll";
 }
 
 <h1>Delete Payroll Record</h1>

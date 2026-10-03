@@ -1,31 +1,253 @@
+/* =========================
+   APPLICATION THEME
+   ========================= */
+
+:root {
+    --app-blue: #1f4e79;
+    --app-blue-dark: #163a5c;
+    --app-orange: #f28c28;
+    --app-orange-dark: #d97516;
+    --app-light: #f7f9fc;
+    --app-border: #dee2e6;
+    --app-text: #263238;
+    --app-muted: #6c757d;
+    --app-white: #ffffff;
+}
+.app-navbar {
+    background-color: var(--app-blue);
+    border-bottom: 4px solid var(--app-orange) !important;
+}
+
+    .app-navbar .navbar-brand {
+        color: white;
+        font-weight: 600;
+    }
+
+    .app-navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+        .app-navbar .nav-link:hover {
+            color: white;
+        }
+
+/* =========================
+   GENERAL PAGE STYLE
+   ========================= */
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--app-light);
+    color: var(--app-text);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+
+/* =========================
+   HEADINGS
+   ========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--app-blue-dark);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+
+/* =========================
+   LINKS
+   ========================= */
+
+a {
+    color: var(--app-blue);
 }
+
+    a:hover {
+        color: var(--app-orange-dark);
+    }
+
+.text-app-orange {
+    color: var(--app-orange-dark) !important;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.btn-primary {
+    color: var(--app-white);
+    background-color: var(--app-blue);
+    border-color: var(--app-blue);
+}
+
+    .btn-primary:hover {
+        color: var(--app-white);
+        background-color: var(--app-blue-dark);
+        border-color: var(--app-blue-dark);
+    }
+
+.btn-outline-primary {
+    color: var(--app-blue);
+    border-color: var(--app-blue);
+}
+
+    .btn-outline-primary:hover {
+        color: var(--app-white);
+        background-color: var(--app-blue);
+        border-color: var(--app-blue);
+    }
+
+.btn-warning {
+    color: var(--app-white);
+    background-color: var(--app-orange);
+    border-color: var(--app-orange);
+}
+
+    .btn-warning:hover {
+        color: var(--app-white);
+        background-color: var(--app-orange-dark);
+        border-color: var(--app-orange-dark);
+    }
+
+.btn-outline-warning {
+    color: var(--app-orange-dark);
+    border-color: var(--app-orange);
+}
+
+    .btn-outline-warning:hover {
+        color: var(--app-white);
+        background-color: var(--app-orange);
+        border-color: var(--app-orange);
+    }
+
+/* =========================
+   FORMS
+   ========================= */
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--app-blue);
+    box-shadow: 0 0 0 0.2rem rgba(31, 78, 121, 0.20);
+}
+
+
+/* =========================
+   TABLES
+   ========================= */
+
+.table {
+    background-color: var(--app-white);
+}
+
+.app-table thead th {
+    background-color: var(--app-blue);
+    color: var(--app-white);
+    border-color: var(--app-blue);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.75rem;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+    border: 1px solid var(--app-border);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    background-color: var(--app-blue);
+    color: var(--app-white);
+    font-weight: 600;
+}
+
+
+/* =========================
+   FOCUS / ACCESSIBILITY
+   ========================= */
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--app-white), 0 0 0 0.25rem rgba(31, 78, 121, 0.35);
+}
+
+
+/* =========================
+   FORM PLACEHOLDERS
+   ========================= */
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* =========================
+   BADGES / STATUS
+   ========================= */
+
+.badge-app-primary {
+    background-color: var(--app-blue);
+    color: var(--app-white);
+}
+
+/* =========================
+   PAYROLL TABLE
+   ========================= */
+
+.payroll-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+    .payroll-table .col-employee {
+        width: 22%;
+    }
+
+    .payroll-table .col-period {
+        width: 18%;
+    }
+
+    .payroll-table .col-netpay {
+        width: 14%;
+    }
+
+    .payroll-table .col-status {
+        width: 14%;
+    }
+
+    .payroll-table .col-date {
+        width: 14%;
+    }
+
+    .payroll-table .col-actions {
+        width: 18%;
+    }
