@@ -15,7 +15,11 @@ var clerkClientId = builder.Configuration["Clerk:ClientId"]
 var clerkClientSecret = builder.Configuration["Clerk:ClientSecret"]
     ?? throw new InvalidOperationException("Missing Clerk:ClientSecret configuration.");
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Employees");
+    options.Conventions.AuthorizeFolder("/PayrollRecords");
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(

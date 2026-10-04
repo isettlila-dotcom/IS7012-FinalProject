@@ -4,38 +4,109 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IS7012_FinalProject</title>
+
     <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/IS7012_FinalProject.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark app-navbar border-bottom box-shadow mb-4">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">UCIS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <a class="navbar-brand"
+                   asp-area=""
+                   asp-page="/Index">
+                    UCIS
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <!-- Left navigation -->
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-                        </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Employees/Index">Employees</a>
+                            <a class="nav-link"
+                               asp-area=""
+                               asp-page="/Index">
+                                Home
+                            </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/PayrollRecords/Index">Payroll</a>
-                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-area=""
+                                   asp-page="/Employees/Index">
+                                    Employees
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-area=""
+                                   asp-page="/PayrollRecords/Index">
+                                    Payroll
+                                </a>
+                            </li>
+                        }
+
                     </ul>
+
+                    <!-- Right authentication navigation -->
+                    <ul class="navbar-nav">
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="nav-link">
+                                    @(
+                                        User.FindFirst("email")?.Value
+                                        ?? User.FindFirst("name")?.Value
+                                        ?? "Signed In"
+                                    )
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="/logout">
+                                    Sign Out
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="/login">
+                                    Sign In
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -44,7 +115,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - IS7012_FinalProject - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2026 - IS7012_FinalProject -
+            <a asp-area="" asp-page="/Privacy">
+                Privacy
+            </a>
         </div>
     </footer>
 
