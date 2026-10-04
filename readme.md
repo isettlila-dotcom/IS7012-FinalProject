@@ -21,3 +21,8 @@ dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect --version 1
 ## Run
 dotnet build
 dotnet run --launch-profile https
+
+# Data
+
+## Load data and migrations
+dotnet ef database update
