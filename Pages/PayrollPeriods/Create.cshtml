@@ -1,0 +1,61 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollPeriods.CreateModel
+
+@{
+    ViewData["Title"] = "Create Payroll Period";
+}
+
+<div class="row">
+    <div class="col-md-6 col-lg-5">
+        <h1 class="mb-1">Create Payroll Period</h1>
+
+        <p class="text-muted mb-4">
+            Create and open a new monthly period for payroll processing.
+        </p>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="PayrollMonth"
+                               class="form-label">
+                            Payroll Month
+                        </label>
+
+                        <input asp-for="PayrollMonth"
+                               type="month"
+                               class="form-control" />
+
+                        <span asp-validation-for="PayrollMonth"
+                              class="text-danger"></span>
+
+                        <div class="form-text">
+                            The payroll period will cover the full calendar month.
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Create Payroll Period
+                    </button>
+
+                    <a asp-page="./Index"
+                       class="btn btn-outline-secondary ms-2">
+                        Back to Payroll Periods
+                    </a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
