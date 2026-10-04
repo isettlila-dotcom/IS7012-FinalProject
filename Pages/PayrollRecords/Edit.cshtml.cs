@@ -9,7 +9,7 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
 
 
 {
-    [Authorize(Policy = "PayrrollSpecialist")]
+    [Authorize(Policy = "PayrollSpecialist")]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

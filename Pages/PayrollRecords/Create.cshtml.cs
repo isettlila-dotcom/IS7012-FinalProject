@@ -9,7 +9,7 @@ using IS7012_FinalProject.Models;
 
 namespace IS7012_FinalProject.Pages.PayrollRecords
 {
-    [Authorize(Policy = "PayrrollSpecialist")]
+    [Authorize(Policy = "PayrollSpecialist")]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;

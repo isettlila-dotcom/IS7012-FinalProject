@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace IS7012_FinalProject.Pages.PayrollRecords
 {
 
-    [Authorize(Policy = "PayrrollSpecialist")]
+    [Authorize(Policy = "PayrollSpecialist")]
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
