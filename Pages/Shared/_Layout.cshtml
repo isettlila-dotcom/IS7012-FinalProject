@@ -47,26 +47,27 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/PayrollRecords/Index">Payroll</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/PayrollReview/Index">
-                                Payroll Review
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/PayrollPeriods/Index">Payroll Periods</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white"
-                               asp-area=""
-                               asp-page="/PayrollStatistics/Index">
-                                Statistics
-                            </a>
-                        </li>
+
                         @if (User.Identity?.IsAuthenticated == true)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/PayrollRecords/Index">Payroll</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/PayrollReview/Index">
+                                    Payroll Review
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/PayrollPeriods/Index">Payroll Periods</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white"
+                                asp-area=""
+                                asp-page="/PayrollStatistics/Index">
+                                    Statistics
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link"
                                    asp-area=""
@@ -133,7 +134,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - IS7012_FinalProject -
+            &copy; 2026 - UCIS -
             <a asp-area="" asp-page="/Privacy">
                 Privacy
             </a>
