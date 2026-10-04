@@ -1,0 +1,120 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollReview.IndexModel
+
+@{
+    ViewData["Title"] = "Payroll Review";
+}
+
+<div class="mb-4">
+    <h1 class="mb-1">Payroll Review</h1>
+
+    <p class="text-muted mb-0">
+        Review payroll records submitted for approval.
+    </p>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="card">
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle app-table payroll-table mb-0">
+
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Period</th>
+                    <th class="text-end">Basic</th>
+                    <th class="text-end">Allowance</th>
+                    <th class="text-end text-nowrap">Add'l Earnings</th>
+                    <th class="text-end">Gross</th>
+                    <th class="text-end">Deductions</th>
+                    <th class="text-end text-nowrap">Net Pay</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.PayrollRecords.Count == 0)
+                {
+                    <tr>
+                        <td colspan="9"
+                            class="text-center text-muted py-4">
+
+                            No payroll records are currently awaiting review.
+
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.PayrollRecords)
+                    {
+                        <tr>
+
+                            <td class="text-nowrap">
+                                @item.Employee?.FirstName
+                                @item.Employee?.LastName
+                            </td>
+
+                            <td class="text-nowrap">
+                                @item.PayrollPeriod?.StartDate.ToString("MMM yyyy")
+                            </td>
+
+                            <td class="text-end">
+                                @(item.SalaryPackage?.BasicSalary.ToString("N2") ?? "-")
+                            </td>
+
+                            <td class="text-end">
+                                @(item.SalaryPackage?.Allowance.ToString("N2") ?? "-")
+                            </td>
+
+                            <td class="text-end">
+                                @item.AdditionalEarnings.ToString("N2")
+                            </td>
+
+                            <td class="text-end">
+                                @item.GrossPay.ToString("N2")
+                            </td>
+
+                            <td class="text-end">
+                                @item.Deductions.ToString("N2")
+                            </td>
+
+                            <td class="text-end fw-semibold">
+                                @item.NetPay.ToString("N2")
+                            </td>
+
+                            <td>
+                                <a asp-page="./Review"
+                                   asp-route-id="@item.PayrollRecordId"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    Review
+
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

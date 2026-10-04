@@ -15,57 +15,83 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             _context = context;
         }
 
-        [BindProperty]
         public PayrollRecord PayrollRecord { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var payrollRecord = await _context.PayrollRecords
-                .Include(p => p.Employee)
-                .Include(p => p.PayrollPeriod)
-                .Include(p => p.SalaryPackage)
-                .FirstOrDefaultAsync(p => p.PayrollRecordId == id);
+                .Include(r => r.Employee)
+                .Include(r => r.PayrollPeriod)
+                .Include(r => r.SalaryPackage)
+                .FirstOrDefaultAsync(r => r.PayrollRecordId == id);
 
             if (payrollRecord == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] =
+                    "Payroll record could not be found.";
+
+                return RedirectToPage("./Index");
+            }
+
+            if (payrollRecord.PayrollPeriod?.IsClosed == true)
+            {
+                TempData["ErrorMessage"] =
+                    "Payroll records in a closed period cannot be deleted.";
+
+                return RedirectToPage("./Index");
+            }
+
+            if (payrollRecord.Status != PayrollStatus.Draft &&
+                payrollRecord.Status != PayrollStatus.Returned)
+            {
+                TempData["ErrorMessage"] =
+                    "Only draft or returned payroll records can be deleted.";
+
+                return RedirectToPage("./Index");
             }
 
             PayrollRecord = payrollRecord;
 
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            var existingRecord = await _context.PayrollRecords
-                .Include(p => p.PayrollPeriod)
-                .FirstOrDefaultAsync(
-                    p => p.PayrollRecordId == PayrollRecord.PayrollRecordId);
+            var payrollRecord = await _context.PayrollRecords
+                .Include(r => r.PayrollPeriod)
+                .FirstOrDefaultAsync(r => r.PayrollRecordId == id);
 
-            if (existingRecord == null)
+            if (payrollRecord == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] =
+                    "Payroll record could not be found.";
+
+                return RedirectToPage("./Index");
             }
 
-            if (existingRecord.Status != PayrollStatus.Draft &&
-                existingRecord.Status != PayrollStatus.Returned)
+            if (payrollRecord.PayrollPeriod?.IsClosed == true)
             {
-                return BadRequest("Only Draft or Returned payroll records can be deleted.");
+                TempData["ErrorMessage"] =
+                    "Payroll records in a closed period cannot be deleted.";
+
+                return RedirectToPage("./Index");
             }
 
-            if (existingRecord.PayrollPeriod == null ||
-                existingRecord.PayrollPeriod.IsClosed)
+            if (payrollRecord.Status != PayrollStatus.Draft &&
+                payrollRecord.Status != PayrollStatus.Returned)
             {
-                return BadRequest("Payroll records in a closed payroll period cannot be deleted.");
+                TempData["ErrorMessage"] =
+                    "Only draft or returned payroll records can be deleted.";
+
+                return RedirectToPage("./Index");
             }
 
-            _context.PayrollRecords.Remove(existingRecord);
+            _context.PayrollRecords.Remove(payrollRecord);
+
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] =
+                "Payroll record was deleted successfully.";
 
             return RedirectToPage("./Index");
         }

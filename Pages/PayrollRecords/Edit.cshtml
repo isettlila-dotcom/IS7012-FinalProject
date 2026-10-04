@@ -2,42 +2,19 @@
 @model IS7012_FinalProject.Pages.PayrollRecords.EditModel
 
 @{
-    ViewData["Title"] = $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Edit Payroll";
+    ViewData["Title"] =
+        $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Edit Payroll";
 }
 
-<h1>Edit Payroll Record</h1>
-
-<hr />
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-lg-8">
 
-        <div class="mb-3">
-            <label class="form-label">Employee</label>
-            <input class="form-control"
-                   value="@Model.PayrollRecord.Employee?.EmployeeNumber - @Model.PayrollRecord.Employee?.FirstName @Model.PayrollRecord.Employee?.LastName"
-                   readonly />
-        </div>
+        <div class="mb-4">
+            <h1 class="mb-1">Edit Payroll Record</h1>
 
-        <div class="mb-3">
-            <label class="form-label">Payroll Period</label>
-            <input class="form-control"
-                   value="@Model.PayrollRecord.PayrollPeriod?.PeriodName"
-                   readonly />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Basic Salary</label>
-            <input class="form-control"
-                   value="@Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2")"
-                   readonly />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Allowance</label>
-            <input class="form-control"
-                   value="@Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2")"
-                   readonly />
+            <p class="text-muted mb-0">
+                Update payroll adjustments and remarks for this record.
+            </p>
         </div>
 
         <form method="post">
@@ -46,56 +23,221 @@
                    asp-for="PayrollRecord.PayrollRecordId" />
 
             <div asp-validation-summary="ModelOnly"
-                 class="text-danger"></div>
-
-            <div class="mb-3">
-                <label asp-for="PayrollRecord.AdditionalEarnings"
-                       class="form-label"></label>
-
-                <input asp-for="PayrollRecord.AdditionalEarnings"
-                       class="form-control" />
-
-                <span asp-validation-for="PayrollRecord.AdditionalEarnings"
-                      class="text-danger"></span>
+                 class="text-danger mb-3">
             </div>
 
-            <div class="mb-3">
-                <label asp-for="PayrollRecord.Deductions"
-                       class="form-label"></label>
+            <!-- Payroll Information -->
+            <div class="card mb-4">
 
-                <input asp-for="PayrollRecord.Deductions"
-                       class="form-control" />
+                <div class="card-header">
+                    Payroll Information
+                </div>
 
-                <span asp-validation-for="PayrollRecord.Deductions"
-                      class="text-danger"></span>
+                <div class="card-body p-0">
+
+                    <table class="table align-middle mb-0">
+                        <tbody>
+
+                            <tr>
+                                <th class="ps-3" style="width: 40%;">
+                                    Employee
+                                </th>
+
+                                <td>
+                                    @Model.PayrollRecord.Employee?.EmployeeNumber -
+                                    @Model.PayrollRecord.Employee?.FirstName
+                                    @Model.PayrollRecord.Employee?.LastName
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="ps-3">
+                                    Payroll Period
+                                </th>
+
+                                <td>
+                                    @Model.PayrollRecord.PayrollPeriod?.PeriodName
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="PayrollRecord.Remarks"
-                       class="form-label"></label>
+            <!-- Payroll Calculation -->
+            <div class="card mb-4">
 
-                <textarea asp-for="PayrollRecord.Remarks"
-                          class="form-control"
-                          rows="3"></textarea>
+                <div class="card-header">
+                    Payroll Calculation
+                </div>
 
-                <span asp-validation-for="PayrollRecord.Remarks"
-                      class="text-danger"></span>
+                <div class="card-body">
+
+                    <!-- Basic Salary -->
+                    <div class="row align-items-center mb-3">
+
+                        <div class="col-md-5">
+                            <label class="form-label mb-0">
+                                Basic Salary
+                            </label>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-control bg-light">
+                                @(Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2") ?? "-")
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Allowance -->
+                    <div class="row align-items-center mb-3">
+
+                        <div class="col-md-5">
+                            <label class="form-label mb-0">
+                                + Allowance
+                            </label>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-control bg-light">
+                                @(Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2") ?? "-")
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Additional Earnings -->
+                    <div class="row align-items-center mb-3">
+
+                        <div class="col-md-5">
+                            <label asp-for="PayrollRecord.AdditionalEarnings"
+                                   class="form-label mb-0">
+                                + Additional Earnings
+                            </label>
+                        </div>
+
+                        <div class="col-md-7">
+
+                            <input asp-for="PayrollRecord.AdditionalEarnings"
+                                   class="form-control" />
+
+                            <span asp-validation-for="PayrollRecord.AdditionalEarnings"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <!-- Gross Pay -->
+                    <div class="row align-items-center mb-3">
+
+                        <div class="col-md-5">
+                            <span class="fw-semibold">
+                                = Gross Pay
+                            </span>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-control bg-light fw-semibold">
+                                @Model.PayrollRecord.GrossPay.ToString("N2")
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Deductions -->
+                    <div class="row align-items-center mb-3">
+
+                        <div class="col-md-5">
+                            <label asp-for="PayrollRecord.Deductions"
+                                   class="form-label mb-0">
+                                − Deductions
+                            </label>
+                        </div>
+
+                        <div class="col-md-7">
+
+                            <input asp-for="PayrollRecord.Deductions"
+                                   class="form-control" />
+
+                            <span asp-validation-for="PayrollRecord.Deductions"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <!-- Net Pay -->
+                    <div class="row align-items-center">
+
+                        <div class="col-md-5">
+                            <span class="fw-bold">
+                                = Net Pay
+                            </span>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-control bg-light fw-bold">
+                                @Model.PayrollRecord.NetPay.ToString("N2")
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
 
-            <button type="submit"
-                    class="btn btn-primary">
-                Save Changes
-            </button>
+            <!-- Remarks -->
+            <div class="card mb-4">
 
-            <a asp-page="./Index"
-               class="btn btn-secondary">
-                Back to List
-            </a>
+                <div class="card-header">
+                    Remarks
+                </div>
+
+                <div class="card-body">
+
+                    <textarea asp-for="PayrollRecord.Remarks"
+                              class="form-control"
+                              rows="3">
+                    </textarea>
+
+                    <span asp-validation-for="PayrollRecord.Remarks"
+                          class="text-danger">
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Save Changes
+                </button>
+
+                <a asp-page="./Index"
+                   class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+            </div>
 
         </form>
+
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

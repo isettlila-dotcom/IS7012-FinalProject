@@ -1,0 +1,250 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollRecords.SearchModel
+@using IS7012_FinalProject.Models
+
+@{
+    ViewData["Title"] = "Search Payroll Records";
+}
+
+<div class="mb-4">
+    <h1 class="mb-1">Search Payroll Records</h1>
+    <p class="text-muted mb-0">
+        Search and filter payroll records by employee, payroll period or status.
+    </p>
+</div>
+
+<div class="card mb-4">
+
+    <div class="card-header">
+        Search Criteria
+    </div>
+
+    <div class="card-body">
+
+        <form method="get">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4 col-md-6">
+
+                    <label asp-for="SearchTerm"
+                           class="form-label">
+                        Employee
+                    </label>
+
+                    <input asp-for="SearchTerm"
+                           class="form-control"
+                           placeholder="Name or employee number" />
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label asp-for="PeriodId"
+                           class="form-label">
+                        Payroll Period
+                    </label>
+
+                    <select asp-for="PeriodId"
+                            class="form-select">
+
+                        <option value="">All Periods</option>
+
+                        @foreach (var period in Model.PayrollPeriods)
+                        {
+                            <option value="@period.PayrollPeriodId">
+                                @period.PeriodName
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label asp-for="StatusFilter"
+                           class="form-label">
+                        Status
+                    </label>
+
+                    <select asp-for="StatusFilter"
+                            class="form-select">
+
+                        <option value="">All Statuses</option>
+
+                        <option value="@PayrollStatus.Draft">
+                            Draft
+                        </option>
+
+                        <option value="@PayrollStatus.Submitted">
+                            Submitted
+                        </option>
+
+                        <option value="@PayrollStatus.Approved">
+                            Approved
+                        </option>
+
+                        <option value="@PayrollStatus.Returned">
+                            Returned
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+
+                    <div class="d-flex gap-2">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Search
+                        </button>
+
+                        <a asp-page="./Search"
+                           class="btn btn-outline-secondary">
+                            Clear
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+        Search Results
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle app-table payroll-table mb-0">
+
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Period</th>
+                    <th class="text-end text-nowrap">Basic</th>
+                    <th class="text-end text-nowrap">Allowance</th>
+                    <th class="text-end text-nowrap">Add'l Earnings</th>
+                    <th class="text-end text-nowrap">Gross</th>
+                    <th class="text-end text-nowrap">Deductions</th>
+                    <th class="text-end text-nowrap">Net Pay</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.PayrollRecords.Any())
+                {
+                    @foreach (var item in Model.PayrollRecords)
+                    {
+                        <tr>
+
+                            <td class="text-nowrap">
+                                @item.Employee?.FirstName
+                                @item.Employee?.LastName
+                            </td>
+
+                            <td class="text-nowrap">
+                                @item.PayrollPeriod?.StartDate.ToString("MMM yyyy")
+                            </td>
+
+                            <td class="text-end">
+                                @(item.SalaryPackage?.BasicSalary.ToString("N2") ?? "-")
+                            </td>
+
+                            <td class="text-end">
+                                @(item.SalaryPackage?.Allowance.ToString("N2") ?? "-")
+                            </td>
+
+                            <td class="text-end">
+                                @item.AdditionalEarnings.ToString("N2")
+                            </td>
+
+                            <td class="text-end">
+                                @item.GrossPay.ToString("N2")
+                            </td>
+
+                            <td class="text-end">
+                                @item.Deductions.ToString("N2")
+                            </td>
+
+                            <td class="text-end fw-semibold">
+                                @item.NetPay.ToString("N2")
+                            </td>
+
+                            <td>
+                                @switch (item.Status)
+                                {
+                                    case PayrollStatus.Draft:
+                                        <span class="badge bg-secondary">
+                                            Draft
+                                        </span>
+                                        break;
+
+                                    case PayrollStatus.Submitted:
+                                        <span class="badge bg-primary">
+                                            Submitted
+                                        </span>
+                                        break;
+
+                                    case PayrollStatus.Approved:
+                                        <span class="badge bg-success">
+                                            Approved
+                                        </span>
+                                        break;
+
+                                    case PayrollStatus.Returned:
+                                        <span class="badge bg-warning text-dark">
+                                            Returned
+                                        </span>
+                                        break;
+                                }
+                            </td>
+
+                            <td>
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.PayrollRecordId">
+                                    Details
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10"
+                            class="text-center text-muted py-4">
+                            No payroll records match the selected search criteria.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="mt-3">
+    <a asp-page="./Index"
+       class="btn btn-outline-secondary">
+        Back to Payroll Records
+    </a>
+</div>

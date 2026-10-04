@@ -7,57 +7,107 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Payroll Records</h1>
 
-    <a asp-page="Create" class="btn btn-primary">
-        Create New Payroll Record
-    </a>
+    <div>
+        <h1 class="mb-1">Payroll Records</h1>
+        <p class="text-muted mb-0">
+            View and manage employee payroll records.
+        </p>
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a asp-page="./Search"
+           class="btn btn-outline-primary">
+            Search Payroll Records
+        </a>
+
+        <a asp-page="./Create"
+           class="btn btn-primary">
+            Create New Payroll Record
+        </a>
+
+    </div>
+
 </div>
 
-@if (TempData["ErrorMessage"] is string errorMessage)
+@if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-warning" role="alert">
-        @errorMessage
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["WarningMessage"]
     </div>
 }
 
 <div class="card">
-    <div class="table-responsive">
-        <table class="table table-hover align-middle app-table payroll-table mb-0">
 
-            <colgroup>
-                <col class="col-employee" />
-                <col class="col-period" />
-                <col class="col-netpay" />
-                <col class="col-status" />
-                <col class="col-date" />
-                <col class="col-actions" />
-            </colgroup>
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle app-table payroll-table mb-0">
 
             <thead>
                 <tr>
                     <th>Employee</th>
-                    <th>Payroll Period</th>
-                    <th class="text-end">Net Pay</th>
+                    <th>Period</th>
+                    <th class="text-end text-nowrap">Basic</th>
+                    <th class="text-end text-nowrap">Allowance</th>
+                    <th class="text-end text-nowrap">Add'l Earnings</th>
+                    <th class="text-end text-nowrap">Gross</th>
+                    <th class="text-end text-nowrap">Deductions</th>
+                    <th class="text-end text-nowrap">Net Pay</th>
                     <th>Status</th>
-                    <th>Prepared Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
+
                 @foreach (var item in Model.PayrollRecord)
                 {
                     <tr>
-                        <td>
+
+                        <td class="text-nowrap">
                             @item.Employee?.FirstName @item.Employee?.LastName
                         </td>
 
-                        <td>
-                            @item.PayrollPeriod?.PeriodName
+                        <td class="text-nowrap">
+                            @item.PayrollPeriod?.StartDate.ToString("MMM yyyy")
                         </td>
 
                         <td class="text-end">
+                            @(item.SalaryPackage?.BasicSalary.ToString("N2") ?? "-")
+                        </td>
+
+                        <td class="text-end">
+                            @(item.SalaryPackage?.Allowance.ToString("N2") ?? "-")
+                        </td>
+
+                        <td class="text-end">
+                            @item.AdditionalEarnings.ToString("N2")
+                        </td>
+
+                        <td class="text-end">
+                            @item.GrossPay.ToString("N2")
+                        </td>
+
+                        <td class="text-end">
+                            @item.Deductions.ToString("N2")
+                        </td>
+
+                        <td class="text-end fw-semibold">
                             @item.NetPay.ToString("N2")
                         </td>
 
@@ -65,60 +115,69 @@
                             @switch (item.Status)
                             {
                                 case PayrollStatus.Draft:
-                                    <span class="badge bg-secondary">Draft</span>
+                                    <span class="badge bg-secondary">
+                                        Draft
+                                    </span>
                                     break;
 
                                 case PayrollStatus.Submitted:
-                                    <span class="badge bg-primary">Submitted</span>
+                                    <span class="badge bg-primary">
+                                        Submitted
+                                    </span>
                                     break;
 
                                 case PayrollStatus.Approved:
-                                    <span class="badge bg-success">Approved</span>
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
                                     break;
 
                                 case PayrollStatus.Returned:
-                                    <span class="badge bg-warning text-dark">Returned</span>
+                                    <span class="badge bg-warning text-dark">
+                                        Returned
+                                    </span>
                                     break;
                             }
                         </td>
 
-                        <td>
-                            @(item.PreparedDate?.ToString("dd-MMM-yyyy") ?? "-")
-                        </td>
+                        <td class="text-nowrap">
 
-                        <td>
                             @if (item.Status == PayrollStatus.Draft ||
                                  item.Status == PayrollStatus.Returned)
                             {
-                                <div class="mb-2 text-nowrap">
+                                <div>
+
                                     <a asp-page="./Edit"
                                        asp-route-id="@item.PayrollRecordId">
                                         Edit
                                     </a>
 
-                                    <span> | </span>
+                                    <span class="text-muted"> | </span>
 
                                     <a asp-page="./Details"
                                        asp-route-id="@item.PayrollRecordId">
                                         Details
                                     </a>
 
-                                    <span> | </span>
+                                    <span class="text-muted"> | </span>
 
                                     <a asp-page="./Delete"
                                        asp-route-id="@item.PayrollRecordId">
                                         Delete
                                     </a>
+
                                 </div>
 
                                 <form method="post"
                                       asp-page-handler="Submit"
-                                      asp-route-id="@item.PayrollRecordId">
+                                      asp-route-id="@item.PayrollRecordId"
+                                      class="mt-2">
 
                                     <button type="submit"
                                             class="btn btn-sm btn-outline-warning">
                                         Submit for Review
                                     </button>
+
                                 </form>
                             }
                             else
@@ -128,10 +187,16 @@
                                     Details
                                 </a>
                             }
+
                         </td>
+
                     </tr>
                 }
+
             </tbody>
+
         </table>
+
     </div>
+
 </div>

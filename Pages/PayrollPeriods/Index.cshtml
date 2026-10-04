@@ -1,0 +1,113 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollPeriods.IndexModel
+
+@{
+    ViewData["Title"] = "Payroll Periods";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Payroll Periods</h1>
+        <p class="text-muted mb-0">
+            Monitor payroll completion and period closure status.
+        </p>
+    </div>
+
+    <a asp-page="./Create" class="btn btn-primary">
+        Create Payroll Period
+    </a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle app-table mb-0">
+            <thead>
+                <tr>
+                    <th>Payroll Period</th>
+                    <th>Records</th>
+                    <th>Approved</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var period in Model.PayrollPeriods)
+                {
+                    <tr>
+                        <td>@period.PeriodName</td>
+
+                        <td>
+                            @period.RecordCount / @period.ExpectedEmployees
+                        </td>
+
+                        <td>
+                            @period.ApprovedCount
+                        </td>
+
+                        <td>
+                            @period.RemainingCount
+                        </td>
+
+                        <td>
+                            @if (period.IsClosed)
+                            {
+                                <span class="badge bg-secondary">
+                                    Closed
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Open
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (period.IsClosed)
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                            else if (period.CanClose)
+                            {
+                                <form method="post"
+                                      asp-page-handler="Close"
+                                      asp-route-id="@period.PayrollPeriodId"
+                                      onsubmit="return confirm('Close @period.PeriodName payroll period? This action cannot be undone.');">
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-warning">
+                                        Close Payroll Period
+                                    </button>
+
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Not Ready
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

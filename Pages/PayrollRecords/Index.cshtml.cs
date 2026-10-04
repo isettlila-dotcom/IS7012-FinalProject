@@ -1,8 +1,8 @@
 using IS7012_FinalProject.Data;
 using IS7012_FinalProject.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace IS7012_FinalProject.Pages.PayrollRecords
 {
@@ -15,7 +15,8 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             _context = context;
         }
 
-        public IList<PayrollRecord> PayrollRecord { get; set; } = new List<PayrollRecord>();
+        public IList<PayrollRecord> PayrollRecord { get; set; }
+            = new List<PayrollRecord>();
 
         public async Task OnGetAsync()
         {
@@ -25,6 +26,7 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
                 .Include(p => p.SalaryPackage)
                 .ToListAsync();
         }
+
         public async Task<IActionResult> OnPostSubmitAsync(int id)
         {
             var payrollRecord = await _context.PayrollRecords
@@ -35,6 +37,7 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             {
                 return NotFound();
             }
+
             if (payrollRecord.Status != PayrollStatus.Draft &&
                 payrollRecord.Status != PayrollStatus.Returned)
             {
@@ -67,10 +70,17 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             payrollRecord.PreparedByUserId = clerkUserId;
             payrollRecord.PreparedDate = DateTime.Now;
 
+            // Clear the previous review information when
+            // a returned record is resubmitted.
+            payrollRecord.ReviewedByUserId = null;
+            payrollRecord.ReviewedDate = null;
+
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] =
+                "Payroll record submitted for review.";
 
             return RedirectToPage();
         }
     }
-
 }
