@@ -19,10 +19,22 @@ var clerkClientSecret = builder.Configuration["Clerk:ClientSecret"]
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Employees");
+
     options.Conventions.AuthorizeFolder(
         "/PayrollRecords",
-        "PayrollUser"
-    );
+        "PayrollUser");
+
+    options.Conventions.AuthorizeFolder(
+        "/PayrollStatistics",
+        "PayrollUser");
+
+    options.Conventions.AuthorizeFolder(
+        "/PayrollReview",
+        "PayrollTeamLead");
+
+    options.Conventions.AuthorizeFolder(
+        "/PayrollPeriods",
+        "PayrollTeamLead");
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

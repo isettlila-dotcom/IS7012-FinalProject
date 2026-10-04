@@ -32,7 +32,7 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
         {
             if (!User.HasClaim(
                     "AppRole",
-                    "PayrollSpecialist"
+                    "Payroll Specialist"
                     ))
                 {
                     return Forbid();
