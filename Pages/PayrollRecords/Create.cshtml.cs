@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization
 using Microsoft.AspNetCore.Mvc;
 using IS7012_FinalProject.Models;
 
 namespace IS7012_FinalProject.Pages.PayrollRecords
 {
+    [Authorize(Policy = "PayrrollSpecialist")]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;

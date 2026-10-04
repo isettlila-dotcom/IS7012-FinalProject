@@ -2,10 +2,14 @@ using IS7012_FinalProject.Data;
 using IS7012_FinalProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace IS7012_FinalProject.Pages.PayrollRecords
+
+
 {
+    [Authorize(Policy = "PayrrollSpecialist")]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

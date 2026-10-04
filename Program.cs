@@ -1,4 +1,5 @@
 using IS7012_FinalProject.Data;
+using IS7012_FinalProject.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -18,7 +19,10 @@ var clerkClientSecret = builder.Configuration["Clerk:ClientSecret"]
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Employees");
-    options.Conventions.AuthorizeFolder("/PayrollRecords");
+    options.Conventions.AuthorizeFolder(
+        "/PayrollRecords",
+        "PayrollUser"
+    );
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -57,7 +61,35 @@ builder.Services
         options.Scope.Add("email");
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddScoped<
+    IClaimsTransformation, 
+    AppRoleClaimsTransformation
+>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("PayrollUser", policy =>
+    {
+        policy.RequireClaim(
+            "AppRole",
+            "Payroll Specialist",
+            "Payroll Team Lead");
+    });
+
+    options.AddPolicy("PayrollSpecialist", policy =>
+    {
+        policy.RequireClaim(
+            "AppRole",
+            "Payroll Specialist");
+    });
+
+    options.AddPolicy("PayrollTeamLead", policy =>
+    {
+        policy.RequireClaim(
+            "AppRole",
+            "Payroll Team Lead");
+    });
+});
 
 var app = builder.Build();
 
