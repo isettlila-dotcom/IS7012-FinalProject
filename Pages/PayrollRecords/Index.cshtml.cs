@@ -66,6 +66,8 @@ namespace IS7012_FinalProject.Pages.PayrollRecords
             payrollRecord.Status = PayrollStatus.Submitted;
             payrollRecord.PreparedByUserId = clerkUserId;
             payrollRecord.PreparedDate = DateTime.Now;
+            payrollRecord.ReviewedByUserId = null;
+            payrollRecord.ReviewedDate = null;
 
             await _context.SaveChangesAsync();
 

@@ -1,0 +1,164 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollReview.ReviewModel
+
+@{
+    ViewData["Title"] =
+        $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Payroll Review";
+}
+
+<div class="row">
+    <div class="col-lg-8">
+
+        <div class="mb-4">
+            <h1 class="mb-1">Review Payroll Record</h1>
+
+            <p class="text-muted mb-0">
+                Review the payroll information before approving or returning the record.
+            </p>
+        </div>
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Payroll Information
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table align-middle mb-0">
+                    <tbody>
+
+                        <tr>
+                            <th class="ps-3" style="width: 40%;">
+                                Employee
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.Employee?.EmployeeNumber -
+                                @Model.PayrollRecord.Employee?.FirstName
+                                @Model.PayrollRecord.Employee?.LastName
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Payroll Period
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.PayrollPeriod?.PeriodName
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Basic Salary
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Allowance
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Additional Earnings
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.AdditionalEarnings.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Gross Pay
+                            </th>
+                            <td class="fw-semibold">
+                                @Model.PayrollRecord.GrossPay.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Deductions
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.Deductions.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Net Pay
+                            </th>
+                            <td class="fw-bold">
+                                @Model.PayrollRecord.NetPay.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Prepared Date
+                            </th>
+                            <td>
+                                @(Model.PayrollRecord.PreparedDate?.ToString("dd MMM yyyy") ?? "-")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">
+                                Remarks
+                            </th>
+                            <td>
+                                @(string.IsNullOrWhiteSpace(Model.PayrollRecord.Remarks)
+                                    ? "-"
+                                    : Model.PayrollRecord.Remarks)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <form method="post"
+                  asp-page-handler="Approve"
+                  asp-route-id="@Model.PayrollRecord.PayrollRecordId">
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Approve
+                </button>
+
+            </form>
+
+            <form method="post"
+                  asp-page-handler="Return"
+                  asp-route-id="@Model.PayrollRecord.PayrollRecordId">
+
+                <button type="submit"
+                        class="btn btn-outline-warning"
+                        onclick="return confirm('Return this payroll record for correction?');">
+                    Return
+                </button>
+
+            </form>
+
+            <a asp-page="./Index"
+               class="btn btn-outline-secondary">
+                Back to Payroll Review
+            </a>
+
+        </div>
+
+    </div>
+</div>
