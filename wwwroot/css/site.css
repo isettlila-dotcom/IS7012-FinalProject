@@ -224,30 +224,12 @@ a {
    ========================= */
 
 .payroll-table {
-    table-layout: fixed;
     width: 100%;
+    font-size: 0.95rem;
 }
 
-    .payroll-table .col-employee {
-        width: 22%;
-    }
-
-    .payroll-table .col-period {
-        width: 18%;
-    }
-
-    .payroll-table .col-netpay {
-        width: 14%;
-    }
-
-    .payroll-table .col-status {
-        width: 14%;
-    }
-
-    .payroll-table .col-date {
-        width: 14%;
-    }
-
-    .payroll-table .col-actions {
-        width: 18%;
+    .payroll-table th,
+    .payroll-table td {
+        padding-left: 0.6rem;
+        padding-right: 0.6rem;
     }
