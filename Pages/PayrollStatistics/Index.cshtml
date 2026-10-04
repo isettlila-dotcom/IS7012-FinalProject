@@ -1,0 +1,291 @@
+﻿@page
+@model IS7012_FinalProject.Pages.PayrollStatistics.IndexModel
+@using IS7012_FinalProject.Models
+
+@{
+    ViewData["Title"] = "Payroll Statistics";
+}
+
+<div class="mb-4">
+    <h1 class="mb-1">Payroll Statistics</h1>
+
+    <p class="text-muted mb-0">
+        Monitor payroll processing status and financial totals by payroll period.
+    </p>
+</div>
+
+<!-- Period Filter -->
+<div class="card mb-4">
+
+    <div class="card-header">
+        Payroll Period
+    </div>
+
+    <div class="card-body">
+
+        <form method="get">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+
+                    <label asp-for="PeriodId"
+                           class="form-label">
+                        Select Payroll Period
+                    </label>
+
+                    <select asp-for="PeriodId"
+                            class="form-select">
+
+                        <option value="">All Periods</option>
+
+                        @foreach (var period in Model.PayrollPeriods)
+                        {
+                            <option value="@period.PayrollPeriodId">
+                                @period.PeriodName
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-7">
+
+                    <div class="d-flex gap-2">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            View Statistics
+                        </button>
+
+                        <a asp-page="./Index"
+                           class="btn btn-outline-secondary">
+                            All Periods
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="mb-3">
+    <h4 class="mb-0">
+        @Model.SelectedPeriodName
+    </h4>
+</div>
+
+<!-- Record Status -->
+<div class="card mb-4">
+
+    <div class="card-header">
+        Record Status
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <!-- Total -->
+            <div class="col-lg col-md-4 col-sm-6">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Total Records
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        @Model.TotalRecords
+                    </div>
+
+                    <a asp-page="/PayrollRecords/Search"
+                       asp-route-PeriodId="@Model.PeriodId"
+                       class="small">
+                        View records
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Draft -->
+            <div class="col-lg col-md-4 col-sm-6">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Draft
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        @Model.DraftCount
+                    </div>
+
+                    <a asp-page="/PayrollRecords/Search"
+                       asp-route-PeriodId="@Model.PeriodId"
+                       asp-route-StatusFilter="@PayrollStatus.Draft"
+                       class="small">
+                        View records
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Submitted -->
+            <div class="col-lg col-md-4 col-sm-6">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Submitted
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        @Model.SubmittedCount
+                    </div>
+
+                    <a asp-page="/PayrollRecords/Search"
+                       asp-route-PeriodId="@Model.PeriodId"
+                       asp-route-StatusFilter="@PayrollStatus.Submitted"
+                       class="small">
+                        View records
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Approved -->
+            <div class="col-lg col-md-4 col-sm-6">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Approved
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        @Model.ApprovedCount
+                    </div>
+
+                    <a asp-page="/PayrollRecords/Search"
+                       asp-route-PeriodId="@Model.PeriodId"
+                       asp-route-StatusFilter="@PayrollStatus.Approved"
+                       class="small">
+                        View records
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Returned -->
+            <div class="col-lg col-md-4 col-sm-6">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Returned
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        @Model.ReturnedCount
+                    </div>
+
+                    <a asp-page="/PayrollRecords/Search"
+                       asp-route-PeriodId="@Model.PeriodId"
+                       asp-route-StatusFilter="@PayrollStatus.Returned"
+                       class="small">
+                        View records
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Financial Summary -->
+<div class="card mb-4">
+
+    <div class="card-header">
+        Financial Summary
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Gross Payroll
+                    </div>
+
+                    <div class="fs-4 fw-semibold">
+                        @Model.TotalGrossPay.ToString("N2")
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Total Deductions
+                    </div>
+
+                    <div class="fs-4 fw-semibold">
+                        @Model.TotalDeductions.ToString("N2")
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="border rounded p-3 h-100">
+
+                    <div class="text-muted mb-1">
+                        Net Payroll
+                    </div>
+
+                    <div class="fs-4 fw-bold">
+                        @Model.TotalNetPay.ToString("N2")
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div>
+    <a asp-page="/PayrollRecords/Index"
+       class="btn btn-outline-secondary">
+        Back to Payroll Records
+    </a>
+</div>
