@@ -2,73 +2,157 @@
 @model IS7012_FinalProject.Pages.PayrollRecords.DeleteModel
 
 @{
-    ViewData["Title"] = $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Delete Payroll";
+    ViewData["Title"] =
+        $"{Model.PayrollRecord.Employee?.FirstName} {Model.PayrollRecord.Employee?.LastName} - Delete Payroll";
 }
 
-<h1>Delete Payroll Record</h1>
+<div class="row">
+    <div class="col-lg-8">
 
-<hr />
+        <div class="mb-4">
+            <h1 class="mb-1">Delete Payroll Record</h1>
 
-<h4 class="mb-4">
-    Are you sure you want to delete the payroll record for
-    <strong>
-        @Model.PayrollRecord.Employee?.FirstName
-        @Model.PayrollRecord.Employee?.LastName
-        –
-        @Model.PayrollRecord.PayrollPeriod?.StartDate.ToString("MMM yyyy")?
-    </strong>
-</h4>
+            <p class="text-muted mb-0">
+                Review the payroll information before deleting this record.
+            </p>
+        </div>
 
-<div class="row mt-4">
-    <div class="col-md-6">
-
-        <dl class="row">
-            <dt class="col-sm-5">Employee</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.Employee?.EmployeeNumber -
+        <div class="alert alert-warning">
+            Are you sure you want to delete the payroll record for
+            <strong>
                 @Model.PayrollRecord.Employee?.FirstName
-                @Model.PayrollRecord.Employee?.LastName
-            </dd>
+                @Model.PayrollRecord.Employee?.LastName -
+                @(Model.PayrollRecord.PayrollPeriod?.PeriodName)?
+            </strong>
+        </div>
 
-            <dt class="col-sm-5">Payroll Period</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.PayrollPeriod?.PeriodName
-            </dd>
+        <div class="card mb-4">
 
-            <dt class="col-sm-5">Gross Pay</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.GrossPay.ToString("N2")
-            </dd>
+            <div class="card-header">
+                Payroll Information
+            </div>
 
-            <dt class="col-sm-5">Deductions</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.Deductions.ToString("N2")
-            </dd>
+            <div class="card-body p-0">
 
-            <dt class="col-sm-5">Net Pay</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.NetPay.ToString("N2")
-            </dd>
+                <table class="table align-middle mb-0">
+                    <tbody>
 
-            <dt class="col-sm-5">Status</dt>
-            <dd class="col-sm-7">
-                @Model.PayrollRecord.Status
-            </dd>
-        </dl>
+                        <tr>
+                            <th class="ps-3" style="width: 40%;">
+                                Employee
+                            </th>
+                            <td>
+                                @Model.PayrollRecord.Employee?.EmployeeNumber -
+                                @Model.PayrollRecord.Employee?.FirstName
+                                @Model.PayrollRecord.Employee?.LastName
+                            </td>
+                        </tr>
 
-        <form method="post">
-            <input type="hidden"
-                   asp-for="PayrollRecord.PayrollRecordId" />
+                        <tr>
+                            <th class="ps-3">Payroll Period</th>
+                            <td>
+                                @Model.PayrollRecord.PayrollPeriod?.PeriodName
+                            </td>
+                        </tr>
 
-            <button type="submit"
-                    class="btn btn-danger">
-                Delete
-            </button>
+                        <tr>
+                            <th class="ps-3">Basic Salary</th>
+                            <td>
+                                @(Model.PayrollRecord.SalaryPackage?.BasicSalary.ToString("N2") ?? "-")
+                            </td>
+                        </tr>
 
-            <a asp-page="./Index"
-               class="btn btn-secondary">
-                Cancel
-            </a>
+                        <tr>
+                            <th class="ps-3">Allowance</th>
+                            <td>
+                                @(Model.PayrollRecord.SalaryPackage?.Allowance.ToString("N2") ?? "-")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Additional Earnings</th>
+                            <td>
+                                @Model.PayrollRecord.AdditionalEarnings.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Gross Pay</th>
+                            <td class="fw-semibold">
+                                @Model.PayrollRecord.GrossPay.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Deductions</th>
+                            <td>
+                                @Model.PayrollRecord.Deductions.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Net Pay</th>
+                            <td class="fw-bold">
+                                @Model.PayrollRecord.NetPay.ToString("N2")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Status</th>
+                            <td>
+                                @switch (Model.PayrollRecord.Status)
+                                {
+                                    case IS7012_FinalProject.Models.PayrollStatus.Draft:
+                                        <span class="badge bg-secondary">Draft</span>
+                                        break;
+
+                                    case IS7012_FinalProject.Models.PayrollStatus.Submitted:
+                                        <span class="badge bg-primary">Submitted</span>
+                                        break;
+
+                                    case IS7012_FinalProject.Models.PayrollStatus.Approved:
+                                        <span class="badge bg-success">Approved</span>
+                                        break;
+
+                                    case IS7012_FinalProject.Models.PayrollStatus.Returned:
+                                        <span class="badge bg-warning text-dark">Returned</span>
+                                        break;
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="ps-3">Remarks</th>
+                            <td>
+                                @(string.IsNullOrWhiteSpace(Model.PayrollRecord.Remarks)
+                                    ? "-"
+                                    : Model.PayrollRecord.Remarks)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <form method="post"
+              asp-route-id="@Model.PayrollRecord.PayrollRecordId">
+
+            <div class="d-flex gap-2">
+
+                <button type="submit"
+                        class="btn btn-danger">
+                    Delete Payroll Record
+                </button>
+
+                <a asp-page="./Index"
+                   class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+            </div>
+
         </form>
 
     </div>
