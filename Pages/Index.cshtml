@@ -1,42 +1,230 @@
 ﻿@page
 @model IndexModel
 
-<div class="text-center">
-    <h1 class="display-4">IS7012 Final Project</h1>
+@{
+    ViewData["Title"] = "Home";
 
-    @if (User.Identity?.IsAuthenticated == true)
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var email = User.FindFirst("email")?.Value;
+    var name = User.FindFirst("name")?.Value;
+    var appRole = User.FindFirst("AppRole")?.Value;
+
+    var displayName =
+        !string.IsNullOrWhiteSpace(name)
+            ? name
+            : email ?? "User";
+}
+
+<div class="py-4">
+
+    @if (!isAuthenticated)
     {
-        <div class="alert alert-success mt-4">
-            <strong>Authenticated!</strong>
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5 text-center">
+
+                        <h1 class="display-5 fw-bold mb-3">
+                            UCIS Payroll Management
+                        </h1>
+
+                        <p class="lead text-muted mb-4">
+                            Secure payroll preparation, review, approval,
+                            period management, and reporting.
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <a href="/login"
+                               class="btn btn-primary btn-lg">
+                                Sign In
+                            </a>
+
+                            <a href="/signup"
+                               class="btn btn-warning btn-lg">
+                                Create Account
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-        <p>
-            User ID:
-            <code>@User.FindFirst("sub")?.Value</code>
-        </p>
-
-        <p>
-            Name:
-            <strong>@User.FindFirst("name")?.Value</strong>
-        </p>
-
-        <p>
-            Email:
-            <strong>@User.FindFirst("email")?.Value</strong>
-        </p>
-
-        <a href="/logout" class="btn btn-danger">
-            Sign Out
-        </a>
     }
     else
     {
-        <div class="alert alert-warning mt-4">
-            You are not signed in.
+        <div class="mb-4">
+            <h1 class="mb-1">
+                Welcome, @displayName
+            </h1>
+
+            <p class="text-muted mb-0">
+                Signed in as
+                <strong>@(appRole ?? "No assigned application role")</strong>
+            </p>
         </div>
 
-        <a href="/login" class="btn btn-primary">
-            Sign In
-        </a>
+        @if (appRole == "Payroll Specialist")
+        {
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h4">
+                                Payroll Records
+                            </h2>
+
+                            <p class="text-muted">
+                                Prepare, edit, and submit payroll records for review.
+                            </p>
+
+                            <a asp-page="/PayrollRecords/Index"
+                               class="btn btn-primary">
+                                Open Payroll Records
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h4">
+                                Payroll Statistics
+                            </h2>
+
+                            <p class="text-muted">
+                                Review payroll totals, statuses, deductions, and net pay.
+                            </p>
+
+                            <a asp-page="/PayrollStatistics/Index"
+                               class="btn btn-outline-primary">
+                                View Statistics
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+        else if (appRole == "Payroll Team Lead")
+        {
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h5">
+                                Payroll Records
+                            </h2>
+
+                            <p class="text-muted">
+                                View payroll records and processing status.
+                            </p>
+
+                            <a asp-page="/PayrollRecords/Index"
+                               class="btn btn-primary">
+                                Open
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h5">
+                                Payroll Review
+                            </h2>
+
+                            <p class="text-muted">
+                                Approve or return submitted payroll records.
+                            </p>
+
+                            <a asp-page="/PayrollReview/Index"
+                               class="btn btn-warning">
+                                Review
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h5">
+                                Payroll Periods
+                            </h2>
+
+                            <p class="text-muted">
+                                Manage and close completed payroll periods.
+                            </p>
+
+                            <a asp-page="/PayrollPeriods/Index"
+                               class="btn btn-outline-primary">
+                                Manage Periods
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="h5">
+                                Statistics
+                            </h2>
+
+                            <p class="text-muted">
+                                Monitor payroll totals and workflow status.
+                            </p>
+
+                            <a asp-page="/PayrollStatistics/Index"
+                               class="btn btn-outline-primary">
+                                View Statistics
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <div class="card">
+                        <div class="card-body p-4">
+
+                            <h2 class="h4">
+                                Employee Management
+                            </h2>
+
+                            <p class="text-muted">
+                                Your account does not have access to payroll
+                                processing functions.
+                            </p>
+
+                            <a asp-page="/Employees/Index"
+                               class="btn btn-primary">
+                                View Employees
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+        <div class="mt-4">
+            <small class="text-muted">
+                Signed in as @email
+            </small>
+        </div>
     }
+
 </div>
