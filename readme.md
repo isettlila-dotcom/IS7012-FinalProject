@@ -24,5 +24,8 @@ dotnet run --launch-profile https
 
 # Data
 
+## Downl
+dotnet tool install --global dotnet-ef
+
 ## Load data and migrations
 dotnet ef database update

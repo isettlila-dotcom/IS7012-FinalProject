@@ -50,7 +50,10 @@ builder.Services
         options.DefaultChallengeScheme =
             OpenIdConnectDefaults.AuthenticationScheme;
     })
-    .AddCookie()
+    .AddCookie(options =>
+    {
+        options.AccessDeniedPath = "/AccessDenied";
+    })
     .AddOpenIdConnect(options =>
     {
         options.Authority = clerkAuthority;
@@ -119,6 +122,22 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapGet("/signup", context =>
+{
+    var signUpUrl =
+        builder.Configuration["Clerk:SignUpUrl"]
+        ?? throw new InvalidOperationException(
+            "Missing Clerk:SignUpUrl configuration.");
+
+    var redirectUrl = Uri.EscapeDataString(
+        $"{context.Request.Scheme}://{context.Request.Host}/");
+
+    context.Response.Redirect(
+        $"{signUpUrl}?redirect_url={redirectUrl}");
+
+    return Task.CompletedTask;
+});
 
 app.MapGet("/login", async context =>
 {

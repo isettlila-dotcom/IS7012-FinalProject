@@ -1,0 +1,54 @@
+@page
+@model IS7012_FinalProject.Pages.AccessDeniedModel
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-7 col-md-9">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center p-5">
+
+                <div class="display-1 text-warning mb-3">
+                    403
+                </div>
+
+                <h1 class="h2 mb-3">
+                    Access Denied
+                </h1>
+
+                <p class="text-muted mb-4">
+                    You are signed in, but your account does not have
+                    permission to access this page.
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="alert alert-light border mb-4">
+                        <strong>Signed in as:</strong>
+                        @(User.FindFirst("email")?.Value
+                            ?? User.FindFirst("name")?.Value
+                            ?? "Unknown user")
+
+                        <br />
+
+                        <strong>Application Role:</strong>
+                        @(User.FindFirst("AppRole")?.Value
+                            ?? "No assigned application role")
+                    </div>
+                }
+
+                <a asp-page="/Index"
+                   class="btn btn-primary me-2">
+                    Return Home
+                </a>
+
+                <a href="/logout"
+                   class="btn btn-outline-secondary">
+                    Sign Out
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
