@@ -4,6 +4,8 @@
 
 @{
     ViewData["Title"] = "Payroll Records";
+    var isPayrollSpecialist =
+        User.HasClaim("AppRole", "Payroll Specialist");
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -22,11 +24,13 @@
             Search Payroll Records
         </a>
 
-        <a asp-page="./Create"
-           class="btn btn-primary">
-            Create New Payroll Record
-        </a>
-
+        @if (isPayrollSpecialist)
+        {
+            <a asp-page="./Create"
+               class="btn btn-primary">
+                Create New Payroll Record
+            </a>
+        }
     </div>
 
 </div>
@@ -142,11 +146,11 @@
 
                         <td class="text-nowrap">
 
-                            @if (item.Status == PayrollStatus.Draft ||
-                                 item.Status == PayrollStatus.Returned)
+                            @if ((item.Status == PayrollStatus.Draft ||
+                                 item.Status == PayrollStatus.Returned) &&
+                                isPayrollSpecialist)
                             {
                                 <div>
-
                                     <a asp-page="./Edit"
                                        asp-route-id="@item.PayrollRecordId">
                                         Edit
@@ -165,7 +169,6 @@
                                        asp-route-id="@item.PayrollRecordId">
                                         Delete
                                     </a>
-
                                 </div>
 
                                 <form method="post"
@@ -177,7 +180,6 @@
                                             class="btn btn-sm btn-outline-warning">
                                         Submit for Review
                                     </button>
-
                                 </form>
                             }
                             else
