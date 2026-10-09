@@ -102,15 +102,7 @@
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <li class="nav-item d-flex align-items-center">
-                                <span class="nav-link">
-                                    @(
-                                        User.FindFirst("email")?.Value
-                                        ?? User.FindFirst("name")?.Value
-                                        ?? "Signed In"
-                                    )
-                                </span>
-                            </li>
+
 
                             <li class="nav-item">
                                 <a class="nav-link"
