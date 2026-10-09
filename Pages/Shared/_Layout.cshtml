@@ -102,11 +102,22 @@
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-
+                            var displayName =
+                                User.FindFirst("name")?.Value
+                                ?? User.FindFirst("email")?.Value
+                                ?? "My Account";
 
                             <li class="nav-item">
                                 <a class="nav-link"
-                                   href="/logout">
+                                href="https://dear-spaniel-7134.accounts.dev/user"
+                                rel="noopener noreferrer">
+                                    @displayName
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                href="/logout">
                                     Sign Out
                                 </a>
                             </li>
@@ -115,14 +126,14 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link"
-                                   href="/login">
+                                href="/login">
                                     Sign In
                                 </a>
                             </li>
 
                             <li class="nav-item ms-sm-2">
                                 <a class="btn btn-warning"
-                                   href="/signup">
+                                href="/signup">
                                     Create Account
                                 </a>
                             </li>
